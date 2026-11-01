@@ -42,16 +42,6 @@ class FoxLog
 		trace(' ERROR '.error() + ' ${haxe.Log.formatOutput(message, pos)}'.red());
 		#end
 	}
-
-	public static function notice(origin:String, message:String, ?pos:PosInfos):Void
-	{
-		lastNotice = message;
-		#if sys
-		Sys.println(' NOTICE '.notice() + ' ${haxe.Log.formatOutput(message, pos)}'.green());
-		#else
-		trace(' NOTICE '.notice() + ' ${haxe.Log.formatOutput(message, pos)}'.green());
-		#end
-	}
 }
 #else
 class FoxLog
@@ -59,11 +49,9 @@ class FoxLog
 	public static var lastLog:String;
 	public static var lastWarning:String;
 	public static var lastError:String;
-	public static var lastNotice:String;
 
 	public static function log(origin:String, message:String):Void {}
 	public static function warning(origin:String, message:String):Void {}
 	public static function error(origin:String, message:String):Void {}
-	public static function notice(origin:String, message:String):Void {}
 }
 #end
