@@ -880,7 +880,7 @@ class Project extends HXProject
 	 */
 	public function warn(message:String):Void
 	{
-		if (!(isDisplay() || isCleanCommand() || isRun() || isInstall())) Sys.println(' WARN '.warning() + " " + message);
+		if (!(isDisplay() || isCleanCommand() || isRun() || isInstall())) Sys.println(' WARN '.warning() + " " + message.fg(AnsiCode.YELLOW).reset());
 	}
 
 	/**
