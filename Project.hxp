@@ -53,6 +53,8 @@ class Project extends HXProject
 	static final VIDEOS_ALLOWED:FeatureFlag = "VIDEOS_ALLOWED";
 	static final FOXLITE_ALLOWED:FeatureFlag = "FOXLITE_ALLOWED";
 
+	static final USE_LEGACY_ZOOM_FACTOR:FeatureFlag = "USE_LEGACY_ZOOM_FACTOR";
+
 	static final ASSET_REDIRECT:FeatureFlag = "ASSET_REDIRECT";
 	static final FEATURE_DEBUG_TRACY:FeatureFlag = "FEATURE_DEBUG_TRACY";
 	static final CRASH_HANDLER:FeatureFlag = "CRASH_HANDLER";
@@ -223,6 +225,8 @@ class Project extends HXProject
 
 		ASSET_REDIRECT.apply(this, false);
 		CRASH_HANDLER.apply(this, true);
+
+		USE_LEGACY_ZOOM_FACTOR.apply(this, false);
 
 		FEATURE_DEBUG_TRACY.apply(this, false);
 
