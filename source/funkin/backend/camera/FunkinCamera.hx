@@ -1,4 +1,4 @@
-package funkin.backend;
+package funkin.backend.camera;
 
 import animate.internal.RenderTexture;
 
