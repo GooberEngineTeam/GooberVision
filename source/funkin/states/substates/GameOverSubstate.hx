@@ -157,22 +157,25 @@ class GameOverSubstate extends MusicBeatSubstate
 			}
 		}
 		
-		if (boyfriend.getAnimName() == 'firstDeath' && boyfriend.isAnimFinished() && startedDeath)
+		if (boyfriend != null)
 		{
-			boyfriend.playAnim('deathLoop');
-		}
-		
-		if (boyfriend.getAnimName() == 'firstDeath')
-		{
-			if (boyfriend.animCurFrame >= 12)
+			if (boyfriend.getAnimName() == 'firstDeath' && boyfriend.isAnimFinished() && startedDeath)
 			{
-				FlxG.camera.followLerp = 0.02;
+				boyfriend.playAnim('deathLoop');
 			}
 			
-			if (boyfriend.isAnimFinished())
+			if (boyfriend.getAnimName() == 'firstDeath')
 			{
-				coolStartDeath();
-				startedDeath = true;
+				if (boyfriend.animCurFrame >= 12)
+				{
+					FlxG.camera.followLerp = 0.02;
+				}
+				
+				if (boyfriend.isAnimFinished())
+				{
+					coolStartDeath();
+					startedDeath = true;
+				}
 			}
 		}
 		
@@ -208,7 +211,7 @@ class GameOverSubstate extends MusicBeatSubstate
 		if (!isEnding)
 		{
 			isEnding = true;
-			boyfriend.playAnim('deathConfirm', true);
+			if (boyfriend != null) boyfriend.playAnim('deathConfirm', true);
 			FlxG.sound.music.stop();
 			if (endSoundName != null) playSfx(Paths.music(endSoundName));
 			confirmTimer.start(0.7, function(tmr:FlxTimer) {
@@ -225,6 +228,18 @@ class GameOverSubstate extends MusicBeatSubstate
 			destroySfx();
 			FlxG.resetState();
 		}
+	}
+	
+	override function beatHit()
+	{
+		PlayState.instance?.scripts.call('onBeatHit', []);
+		super.beatHit();
+	}
+	
+	override function stepHit()
+	{
+		PlayState.instance?.scripts.call('onStepHit', []);
+		super.stepHit();
 	}
 	
 	override function destroy()
