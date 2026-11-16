@@ -112,6 +112,8 @@ class ClientPrefs
 	@saveVar public static var modcharts:Bool = true;
 	
 	@saveVar public static var downScroll:Bool = false;
+
+	@saveVar public static var middleScroll:Bool = false;
 	
 	@saveVar public static var opponentStrums:Bool = true;
 	
@@ -223,14 +225,6 @@ class ClientPrefs
 	];
 	
 	// unavailable / deprecated variables  ------------------------------------------------------------------------//
-	public static var middleScroll(get, never):Bool;
-	
-	static function get_middleScroll():Bool
-	{
-		Logger.log("middlescroll is deprecated and no longer available", WARN, false);
-		return false;
-	}
-	
 	public static var noteSplashes(get, never):Bool;
 	
 	static function get_noteSplashes():Bool
