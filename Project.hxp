@@ -1,4 +1,4 @@
-package; // hi
+package;
 
 // I don't think we can import `funkin` classes here. Macros? Recursion? IDK.
 import hxp.*;
