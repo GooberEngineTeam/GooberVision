@@ -2721,7 +2721,9 @@ class PlayState extends MusicBeatState
 		switch(ease.toLowerCase())
 		{
 			case 'classic':
-				camZoomTween = FlxTween.tween(this, {defaultCamZoom: zoom}, 1.9 / (cameraSpeed * playbackRate), {ease: FlxEase.expoOut, onComplete: onComplete});
+				camZoomTween = FlxTween.tween(this, {defaultCamZoom: zoom}, 1.9 / (cameraSpeed * playbackRate), {ease: FlxEase.expoOut,
+					onComplete: onComplete
+				});
 			case 'instant':
 				defaultCamZoom = zoom;
 			default:
@@ -2744,7 +2746,9 @@ class PlayState extends MusicBeatState
 		switch(ease.toLowerCase())
 		{
 			case 'classic':
-				uiZoomTween = FlxTween.tween(this, {defaultHudZoom: zoom}, 1.9 / (cameraSpeed * playbackRate), {ease: FlxEase.expoOut, onComplete: onComplete});
+				uiZoomTween = FlxTween.tween(this, {defaultHudZoom: zoom}, 1.9 / (cameraSpeed * playbackRate), {ease: FlxEase.expoOut,
+					onComplete: onComplete
+				});
 			case 'instant':
 				defaultHudZoom = zoom;
 			default:
