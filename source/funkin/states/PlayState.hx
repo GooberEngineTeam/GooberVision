@@ -263,9 +263,6 @@ class PlayState extends MusicBeatState
 	var camFollowOffset:FlxPoint;
 	var camFollowOffsetTween:FlxTween;
 	
-	var defaultCamAngle:Float = 0;
-	var defaultCamAngleTween:FlxTween;
-	
 	var camFollowPoint:FlxPoint;
 	var camFollowTween:FlxTween;
 	
@@ -410,8 +407,6 @@ class PlayState extends MusicBeatState
 	public static var deathCounter:Int = 0;
 	
 	public var defaultCamZoomAdd:Float = 0;
-	public var defaultHudZoomAdd:Float = 0;
-	
 	public var defaultCamZoomBop:Float = 0;
 	public var defaultHudZoomBop:Float = 0;
 	
@@ -991,7 +986,7 @@ class PlayState extends MusicBeatState
 			playFields.add(strums);
 			
 			strums.onNoteHit.add((note, field) -> {
-				if (field.ID == 1 && !camZooming) camZooming = true;
+				if (field.ID == 1) camZooming = true;
 				
 				if (field.playerControls || (!audio.splitVocals && !audio.trackSwap)) audio.setTrackVolumeState();
 				
@@ -1779,8 +1774,11 @@ class PlayState extends MusicBeatState
 		
 		camFollow.setPosition(camFollowPoint.x + camFollowOffset.x, camFollowPoint.y + camFollowOffset.y);
 		
+		defaultCamZoomBop = MathUtil.decayLerp(defaultCamZoomBop, 0, 6.25 * camZoomingDecay, elapsed);
+		defaultHudZoomBop = MathUtil.decayLerp(defaultHudZoomBop, 0, 6.25 * camZoomingDecay, elapsed);
+
 		FlxG.camera.zoom = defaultCamZoom + defaultCamZoomAdd + defaultCamZoomBop;
-		camHUD.zoom = defaultHudZoom + defaultHudZoomAdd + defaultHudZoomBop;
+		camHUD.zoom = defaultHudZoom + defaultHudZoomBop;
 		
 		final arg = [elapsed];
 		scripts.call('onUpdate', arg);
@@ -2248,7 +2246,8 @@ class PlayState extends MusicBeatState
 					if (Math.isNaN(camZoom)) camZoom = 0.015;
 					if (Math.isNaN(hudZoom)) hudZoom = 0.03;
 					
-					uiBop(camZoom, hudZoom, 0.8);
+					defaultCamZoomBop += camZoom;
+					defaultHudZoomBop += hudZoom;
 				}
 				
 			case 'Camera Zoom':
@@ -2744,8 +2743,7 @@ class PlayState extends MusicBeatState
 	
 	public function camChangeZoom(zoom:Float, time:Float, ?ease:Null<flixel.tweens.EaseFunction>, ?onComplete:Null<TweenCallback> = null):Void
 	{
-		if (onComplete == null) onComplete = function(tween:FlxTween) {
-		};
+		if (onComplete == null) onComplete = function(tween:FlxTween) {};
 		
 		if (camZoomTween != null) camZoomTween.cancel();
 		if (time > 0) camZoomTween = FlxTween.tween(this, {defaultCamZoom: zoom}, time, {ease: ease, onComplete: onComplete});
@@ -2754,76 +2752,12 @@ class PlayState extends MusicBeatState
 	
 	public function uiChangeZoom(zoom:Float, time:Float, ?ease:Null<flixel.tweens.EaseFunction>, ?onComplete:Null<TweenCallback> = null):Void
 	{
-		if (onComplete == null) onComplete = function(tween:FlxTween) {
-		};
+		if (onComplete == null) onComplete = function(tween:FlxTween) {};
 		
 		if (uiZoomTween != null) uiZoomTween.cancel();
 		
 		if (time > 0) uiZoomTween = FlxTween.tween(this, {defaultHudZoom: zoom}, time, {ease: ease, onComplete: onComplete});
 		else defaultHudZoom = zoom;
-	}
-	
-	public function camChangeZoomAdjust(zoom:Float, time:Float, ?ease:Null<flixel.tweens.EaseFunction>, ?onComplete:Null<TweenCallback> = null):Void
-	{
-		if (onComplete == null) onComplete = function(tween:FlxTween) {
-		};
-		
-		if (camZoomAdjustTween != null) camZoomAdjustTween.cancel();
-		
-		if (time > 0) camZoomAdjustTween = FlxTween.tween(this, {defaultCamZoomAdd: zoom}, time, {ease: ease, onComplete: onComplete});
-		else defaultCamZoomAdd = zoom;
-	}
-	
-	public function uiChangeZoomAdjust(zoom:Float, time:Float, ?ease:Null<flixel.tweens.EaseFunction>, ?onComplete:Null<TweenCallback> = null):Void
-	{
-		if (onComplete == null) onComplete = function(tween:FlxTween) {
-		};
-		
-		if (uiZoomAdjustTween != null) uiZoomAdjustTween.cancel();
-		
-		if (time > 0) uiZoomAdjustTween = FlxTween.tween(this, {defaultHudZoomAdd: zoom}, time, {ease: ease, onComplete: onComplete});
-		else defaultHudZoomAdd = zoom;
-	}
-	
-	public function camChangeZoomBop(zoom:Float, time:Float, ?ease:Null<flixel.tweens.EaseFunction>, ?onComplete:Null<TweenCallback> = null):Void
-	{
-		if (onComplete == null) onComplete = function(tween:FlxTween) {
-		};
-		
-		if (camZoomBopTween != null) camZoomBopTween.cancel();
-		
-		if (time > 0) camZoomBopTween = FlxTween.tween(this, {defaultCamZoomBop: zoom}, time, {ease: ease, onComplete: onComplete});
-		else defaultCamZoomBop = zoom;
-	}
-	
-	public function uiChangeZoomBop(zoom:Float, time:Float, ?ease:Null<flixel.tweens.EaseFunction>, ?onComplete:Null<TweenCallback> = null):Void
-	{
-		if (onComplete == null) onComplete = function(tween:FlxTween) {
-		};
-		
-		if (uiZoomBopTween != null) uiZoomBopTween.cancel();
-		
-		if (time > 0) uiZoomBopTween = FlxTween.tween(this, {defaultHudZoomBop: zoom}, time, {ease: ease, onComplete: onComplete});
-		else defaultHudZoomBop = zoom;
-	}
-	
-	public function uiBop(?camZoom:Float = 0.015, ?uiZoom:Float = 0.03, ?time:Float = 0.8, ?ease:Null<flixel.tweens.EaseFunction>)
-	{
-		if (!ClientPrefs.camZooms) return;
-		
-		if (ease == null) ease = FlxEase.quintOut;
-		
-		if (camZoomBopTween != null) camZoomBopTween.cancel();
-		if (uiZoomBopTween != null) uiZoomBopTween.cancel();
-		
-		defaultCamZoomBop += camZoom;
-		defaultHudZoomBop += uiZoom;
-		
-		if (camZooming)
-		{
-			camChangeZoomBop(0, time, ease);
-			uiChangeZoomBop(0, time, ease);
-		}
 	}
 	
 	public function finishSong(ignoreNoteOffset:Bool = false):Void
@@ -3237,7 +3171,11 @@ class PlayState extends MusicBeatState
 		
 		if (beatsPerZoom == 0) beatsPerZoom = 4;
 		
-		if (camZooming && curBeat % beatsPerZoom == beatOffset) uiBop(0.015 * camZoomingMult, 0.03 * camZoomingMult, 0.8);
+		if (camZooming && ClientPrefs.camZooms && curBeat % beatsPerZoom == beatOffset)
+		{
+			defaultCamZoomBop += 0.015 * camZoomingMult;
+			defaultHudZoomBop += 0.03 * camZoomingMult;
+		}
 		
 		lastBeatHit = curBeat;
 		
