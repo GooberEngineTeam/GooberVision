@@ -70,7 +70,7 @@
             {
                 "name": "moonchart",
                 "link": "https://github.com/MaybeMaru/moonchart",
-                "dir": "main"
+                "branch": "8c9d7cfe3280588fa71a8f3c4444c97bc7b63714"
             },
             {
                 "name": "funkin.vis",
