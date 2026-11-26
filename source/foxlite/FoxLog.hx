@@ -17,9 +17,9 @@ class FoxLog
 	{
 		lastLog = message;
 		#if sys
-		Sys.println(' INFO '.info() + ' ${haxe.Log.formatOutput(message, pos)}');
+		Sys.println(' LOG '.log() + ' ${haxe.Log.formatOutput(message, pos)}');
 		#else
-		trace(' INFO '.info() + ' ${haxe.Log.formatOutput(message, pos)}');
+		trace(' LOG '.log() + ' ${haxe.Log.formatOutput(message, pos)}');
 		#end
 	}
 

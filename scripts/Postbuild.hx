@@ -30,7 +30,7 @@ class Postbuild
 
 			sys.FileSystem.deleteFile(BUILD_TIME_FILE);
 
-			Sys.println(' INFO '.info() + ' Build took: ${format(end - start)}');
+			Sys.println(' LOG '.log() + ' Build took: ${format(end - start)}');
 		}
 	}
 

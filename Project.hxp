@@ -94,8 +94,8 @@ class Project extends HXProject
 		
 		if (!isLinux()) configureIcons();
 
-		info("Configured project successfully!");
-		info("Starting build...");
+		log("Configured project successfully!");
+		log("Starting build...");
 	}
 
 	/**
@@ -103,13 +103,13 @@ class Project extends HXProject
 	 */
 	function flair()
 	{
-		info("Goober Engine - " + VERSION);
-		info("Initializing build...");
+		log("Goober Engine - " + VERSION);
+		log("Initializing build...");
 
-		info("Git Branch:	 " + getGitBranch());
-		info("Git Commit:	 " + getGitCommit());
-		info("Git Modified?   " + getGitModified());
-		info("Display?		" + isDisplay());
+		log("Git Branch:	 " + getGitBranch());
+		log("Git Commit:	 " + getGitCommit());
+		log("Git Modified?   " + getGitModified());
+		log("Display?		" + isDisplay());
 	}
 
 	/**
@@ -171,27 +171,27 @@ class Project extends HXProject
 		// Display the target operating system.
 		switch (this.target)
 		{
-			case Platform.WINDOWS: info('Target Platform: Windows');
-			case Platform.MAC: info('Target Platform: MacOS');
-			case Platform.LINUX: info('Target Platform: Linux');
-			case Platform.ANDROID: info('Target Platform: Android');
-			case Platform.IOS: info('Target Platform: IOS');
-			case Platform.HTML5: info('Target Platform: HTML5');
+			case Platform.WINDOWS: log('Target Platform: Windows');
+			case Platform.MAC: log('Target Platform: MacOS');
+			case Platform.LINUX: log('Target Platform: Linux');
+			case Platform.ANDROID: log('Target Platform: Android');
+			case Platform.IOS: log('Target Platform: IOS');
+			case Platform.HTML5: log('Target Platform: HTML5');
 			default: error('Unsupported platform (got ${target})');
 		}
 
 		switch (this.platformType)
 		{
-			case PlatformType.DESKTOP: info('Target Platform Type: Desktop');
-			case PlatformType.MOBILE: info('Target Platform Type: Mobile');
-			case PlatformType.WEB: info('Target Platform Type: Web');
-			case PlatformType.CONSOLE: info('Target Platform Type: Console');
+			case PlatformType.DESKTOP: log('Target Platform Type: Desktop');
+			case PlatformType.MOBILE: log('Target Platform Type: Mobile');
+			case PlatformType.WEB: log('Target Platform Type: Web');
+			case PlatformType.CONSOLE: log('Target Platform Type: Console');
 			default: error('Unknown platform type (got ${platformType})');
 		}
 
 		// Print whether we are using HXCPP, JavaScript, or something else.
-		if (isWeb()) info('Target Language: JavaScript (HTML5)');
-		else if (isCPP()) info('Target Language: C++');
+		if (isWeb()) log('Target Language: JavaScript (HTML5)');
+		else if (isCPP()) log('Target Language: C++');
 		else error('Unsupported target language!');
 
 		for (arch in this.architectures)
@@ -199,13 +199,13 @@ class Project extends HXProject
 			// Display the list of target architectures.
 			switch (arch)
 			{
-				case Architecture.X86: info('Target Architecture: x86');
-				case Architecture.X64: info('Target Architecture: x64');
-				case Architecture.ARMV7: info('Target Architecture: ARMv7');
-				case Architecture.ARM64: info('Target Architecture: ARM64');
+				case Architecture.X86: log('Target Architecture: x86');
+				case Architecture.X64: log('Target Architecture: x64');
+				case Architecture.ARMV7: log('Target Architecture: ARMv7');
+				case Architecture.ARM64: log('Target Architecture: ARM64');
 				case null:
 					if (!isWeb()) error('Unsupported architecture (got null on non-web platform)');
-					else info('Target Architecture: Web');
+					else log('Target Architecture: Web');
 					default: error('Unsupported architecture (got ${arch})');
 			}
 		}
@@ -273,11 +273,11 @@ class Project extends HXProject
 
 		var horizontalDivider:String = "".rpad("-", enabledWidth + disabledWidth);
 
-		info(horizontalDivider);
+		log(horizontalDivider);
 		// Header
-		info("FEATURE FLAGS");
-		info('Enabled Flags $unicodeCheck'.rpad(" ", enabledWidth + 5) + 'Disabled Flags $unicodeCross');
-		info(horizontalDivider);
+		log("FEATURE FLAGS");
+		log('Enabled Flags $unicodeCheck'.rpad(" ", enabledWidth + 5) + 'Disabled Flags $unicodeCross');
+		log(horizontalDivider);
 
 		while (enabledFlags.length > 0 || disabledFlags.length > 0)
 		{
@@ -290,10 +290,10 @@ class Project extends HXProject
 
 			if (disabledFlags.length > 0) outputLine += disabledFlags.shift() ?? "";
 
-			info(outputLine);
+			log(outputLine);
 		}
 
-		info(horizontalDivider);
+		log(horizontalDivider);
 	}
 
 	/**
@@ -380,7 +380,7 @@ class Project extends HXProject
 		// we use a dedicated 'tracy' folder, since it generally needs a recompile when in use
 		if (FEATURE_DEBUG_TRACY.isEnabled(this)) buildDir += "-tracy";
 
-		info('Output directory: ${buildDir}');
+		log('Output directory: ${buildDir}');
 
 		// trailing slash might not be needed, works fine on macOS without it, but I haven't tested on Windows!
 		buildDir += "/";
@@ -423,8 +423,8 @@ class Project extends HXProject
 
 		var shouldEmbedMods = ASSET_REDIRECT.isEnabled(this);
 		
-		if (shouldEmbedMods) info('Embedding mods into executable...');
-		else info('Including mods alongside executable...');
+		if (shouldEmbedMods) log('Embedding mods into executable...');
+		else log('Including mods alongside executable...');
 		
 		addAssetPath("assets/embeds", "assets", "default", ["*"], null, true);
 		addAssetPath("assets/game", "assets", "default", ["*"], null, false);
@@ -434,8 +434,8 @@ class Project extends HXProject
 		// OpenAL config (appreciate you cyn0x8 and smokey for finding this)
 		if (isDesktop()) addAsset("projFiles/alsoft.ini", isWindows() ? "alsoft.ini" : "alsoft.conf", null, false);
 
-		if (shouldEmbedMods) info('Done embedding mods.');
-		else info('Done including mods.');
+		if (shouldEmbedMods) log('Done embedding mods.');
+		else log('Done including mods.');
 	}
 
 	function clearAssets():Void
@@ -466,7 +466,7 @@ class Project extends HXProject
 
 		if (FileSystem.exists(assetsPath))
 		{
-			info('Deleting assets folder from export folder ($assetsPath)');
+			log('Deleting assets folder from export folder ($assetsPath)');
 
 			// this is fucking shitty i know but you can't just delete the whole assets folder with `FileSystem.deleteDirectory`
 			// this is because the assets folder is usually not empty.....deleting a folder that isn't empty throws an error i fucking hate lime......grrr......
@@ -474,7 +474,7 @@ class Project extends HXProject
 		}
 		else
 		{
-			info('Assets folder does not exist ($assetsPath)');
+			log('Assets folder does not exist ($assetsPath)');
 		}
 	}
 
@@ -501,14 +501,14 @@ class Project extends HXProject
 	 */
 	function configureIcons()
 	{
-		info('Configuring application icons...');
+		log('Configuring application icons...');
 		
 		addIcon("projFiles/icon/icon16.png", 16);
 		addIcon("projFiles/icon/icon32.png", 32);
 		addIcon("projFiles/icon/icon64.png", 64);
 		addIcon("projFiles/icon/iconOG.png");
 
-		info('Done configuring icons.');
+		log('Done configuring icons.');
 	}
 
 	/**
@@ -756,7 +756,7 @@ class Project extends HXProject
 		// Validate path.
 		if (!FileSystem.exists(path)) error('Could not find asset path "${path}".');
 		else if (!FileSystem.isDirectory(path)) error('Could not parse asset path "${path}", expected a directory.');
-		else // info('Found asset path "${path}".');
+		else // log('Found asset path "${path}".');
 
 		for (file in FileSystem.readDirectory(path))
 		{
@@ -888,11 +888,11 @@ class Project extends HXProject
 	}
 
 	/**
-	 * Display an info message. This should not interfere with the build process.
+	 * Display an log message. This should not interfere with the build process.
 	 */
-	public function info(message:String):Void
+	public function log(message:String):Void
 	{
-		if (!(isDisplay() || isCleanCommand() || isRun() || isInstall())) Sys.println(' INFO '.info() + " " + message);
+		if (!(isDisplay() || isCleanCommand() || isRun() || isInstall())) Sys.println(' LOG '.log() + " " + message);
 	}
 }
 

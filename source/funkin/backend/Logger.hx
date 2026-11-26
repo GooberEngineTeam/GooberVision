@@ -17,7 +17,7 @@ enum abstract Severity(Int) to Int
 	{
 		return switch (this)
 		{
-			default: ' INFO '.info();
+			default: ' LOG '.log();
 			case WARN: ' WARN '.warning();
 			case ERROR: ' ERROR '.error();
 			case NOTICE: ' NOTICE '.notice();
