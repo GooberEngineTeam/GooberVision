@@ -2125,7 +2125,7 @@ class PlayState extends MusicBeatState
 	public function updateScoreBar(miss:Bool = false):Void
 	{
 		if (scripts.call('onUpdateScore',
-			[miss]) != ScriptConstants.STOP_FUNC) callHUDFunc(hud -> hud.onUpdateScore(songScore, funkin.utils.MathUtil.floorDecimal(ratingPercent * 100, 2), songMisses, miss));
+			[miss]) != ScriptConstants.STOP_FUNC) callHUDFunc(hud -> hud.onUpdateScore(songScore, MathUtil.floorDecimal(ratingPercent * 100, 2), songMisses, miss));
 	}
 	
 	public var isDead:Bool = false;
