@@ -1771,15 +1771,6 @@ class PlayState extends MusicBeatState
 		
 		camFollow.setPosition(camFollowPoint.x + camFollowOffset.x, camFollowPoint.y + camFollowOffset.y);
 		
-		if (camZooming)
-		{
-			defaultCamZoomBop = MathUtil.decayLerp(defaultCamZoomBop, 0, 6.25 * camZoomingDecay, elapsed);
-			defaultHudZoomBop = MathUtil.decayLerp(defaultHudZoomBop, 0, 6.25 * camZoomingDecay, elapsed);
-		}
-
-		FlxG.camera.zoom = defaultCamZoom + defaultCamZoomAdd + defaultCamZoomBop;
-		camHUD.zoom = defaultHudZoom + defaultHudZoomBop;
-		
 		final arg = [elapsed];
 		scripts.call('onUpdate', arg);
 		
@@ -1826,6 +1817,15 @@ class PlayState extends MusicBeatState
 		Conductor.visualPosition = getVisualPosition();
 		
 		checkEventNote();
+
+		if (camZooming)
+		{
+			defaultCamZoomBop = MathUtil.decayLerp(defaultCamZoomBop, 0, 6.25 * camZoomingDecay, elapsed);
+			defaultHudZoomBop = MathUtil.decayLerp(defaultHudZoomBop, 0, 6.25 * camZoomingDecay, elapsed);
+		}
+
+		FlxG.camera.zoom = defaultCamZoom + defaultCamZoomAdd + defaultCamZoomBop;
+		camHUD.zoom = defaultHudZoom + defaultHudZoomBop;
 		
 		if (!ClientPrefs.noReset && controls.RESET && canReset && !inCutscene && startedCountdown && !endingSong) health = 0;
 		
@@ -2323,7 +2323,7 @@ class PlayState extends MusicBeatState
 				
 				isCameraOnForcedPos = false;
 				updateCamOffsets = true;
-				if (!Math.isNaN(Std.parseFloat(value1)) || !Math.isNaN(Std.parseFloat(value2))) focusCamera("position", val1, val2, 1.9, "CLASSIC", true);
+				if (!Math.isNaN(Std.parseFloat(value1)) || !Math.isNaN(Std.parseFloat(value2))) focusCamera("position", val1, val2, 2.5, "CLASSIC", true);
 				
 			case 'Alt Idle Animation':
 				var char:Character = dad;
@@ -2460,7 +2460,7 @@ class PlayState extends MusicBeatState
 				}
 				
 			case 'Set Cam Zoom':
-				camChangeZoom(Std.parseFloat(value1), 1.9, 'classic');
+				camChangeZoom(Std.parseFloat(value1), 2.5, 'classic');
 				
 			case 'Set Cam Pos':
 				var split:Array<String> = value1.split(',');
@@ -2521,7 +2521,13 @@ class PlayState extends MusicBeatState
 				if (timeType.toLowerCase().trim() == "a") timeValue = Conductor.stepCrotchet * Std.parseFloat(eventDataV2[1]) / 1000; // Steps
 				else if (timeType.toLowerCase().trim() == "b") timeValue = Std.parseFloat(eventDataV2[1]); // Seconds
 				
-				var targetZoom = Std.parseFloat(eventDataV2[0]) * ((eventDataV1[0].toLowerCase() == "absolute" || eventDataV1[0].toLowerCase() == "direct") ? FlxCamera.defaultZoom : stage.stageData.defaultZoom);
+				var targetZoom = Std.parseFloat(eventDataV2[0]);
+				
+				switch(eventDataV1[0].toLowerCase())
+				{
+					case "absolute" | "direct": targetZoom *= FlxCamera.defaultZoom;
+					default: targetZoom *= stage.defaultZoom;
+				}
 				
 				camChangeZoom(targetZoom, timeValue, eventDataV2[2]);
 				
@@ -2604,7 +2610,7 @@ class PlayState extends MusicBeatState
 					
 					if (camFollowTween != null) camFollowTween.cancel();
 					
-					camFollowTween = FlxTween.tween(camFollowPoint, {x: positionData.x, y: positionData.y}, 1.9 / (cameraSpeed * playbackRate), {ease: FlxEase.expoOut,
+					camFollowTween = FlxTween.tween(camFollowPoint, {x: positionData.x, y: positionData.y}, 2.5 / (cameraSpeed * playbackRate), {ease: FlxEase.expoOut,
 						onComplete: onComplete
 					});
 				case 'instant':
@@ -2691,7 +2697,7 @@ class PlayState extends MusicBeatState
 		
 		if (camFollowOffsetTween != null) camFollowOffsetTween.cancel();
 		
-		camFollowOffsetTween = FlxTween.tween(camFollowOffset, {x: displacement.x, y: displacement.y}, 1.9 / (cameraSpeed * playbackRate), {ease: FlxEase.expoOut,
+		camFollowOffsetTween = FlxTween.tween(camFollowOffset, {x: displacement.x, y: displacement.y}, 2.5 / (cameraSpeed * playbackRate), {ease: FlxEase.expoOut,
 			onComplete: function(twn:FlxTween)
 			{
 				camFollowOffsetTween = null;
@@ -2721,7 +2727,7 @@ class PlayState extends MusicBeatState
 		switch(ease.toLowerCase())
 		{
 			case 'classic':
-				camZoomTween = FlxTween.tween(this, {defaultCamZoom: zoom}, 1.9 / (cameraSpeed * playbackRate), {ease: FlxEase.expoOut,
+				camZoomTween = FlxTween.tween(this, {defaultCamZoom: zoom}, 2.5 / (cameraSpeed * playbackRate), {ease: FlxEase.expoOut,
 					onComplete: onComplete
 				});
 			case 'instant':
@@ -2746,7 +2752,7 @@ class PlayState extends MusicBeatState
 		switch(ease.toLowerCase())
 		{
 			case 'classic':
-				uiZoomTween = FlxTween.tween(this, {defaultHudZoom: zoom}, 1.9 / (cameraSpeed * playbackRate), {ease: FlxEase.expoOut,
+				uiZoomTween = FlxTween.tween(this, {defaultHudZoom: zoom}, 2.5 / (cameraSpeed * playbackRate), {ease: FlxEase.expoOut,
 					onComplete: onComplete
 				});
 			case 'instant':
