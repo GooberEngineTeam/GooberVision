@@ -51,7 +51,6 @@ class Project extends HXProject
 
 	static final MODS_ALLOWED:FeatureFlag = "MODS_ALLOWED";
 	static final VIDEOS_ALLOWED:FeatureFlag = "VIDEOS_ALLOWED";
-	static final FOXLITE_ALLOWED:FeatureFlag = "FOXLITE_ALLOWED";
 
 	static final USE_LEGACY_ZOOM_FACTOR:FeatureFlag = "USE_LEGACY_ZOOM_FACTOR";
 
@@ -221,7 +220,6 @@ class Project extends HXProject
 
 		MODS_ALLOWED.apply(this, isDesktop());
 		VIDEOS_ALLOWED.apply(this, isCPP());
-		FOXLITE_ALLOWED.apply(this, true);
 
 		ASSET_REDIRECT.apply(this, false);
 		CRASH_HANDLER.apply(this, true);
@@ -408,8 +406,6 @@ class Project extends HXProject
 
 		addHaxelib('funkin.vis');
 		addHaxelib('grig.audio');
-
-		if (FOXLITE_ALLOWED.isEnabled(this)) addHaxelib('foxlite');
 
 		addHaxelib('json5hx');
 

@@ -23,9 +23,6 @@ class MasterEditorMenu extends MusicBeatState
 		'Week Editor',
 		'Menu Character Editor',
 		'New Chart Editor (Unfinished)',
-		#if FOXLITE_ALLOWED
-		'Visit Maxwell',
-		#end
 	];
 	private var grpTexts:FlxTypedGroup<Alphabet>;
 	private var directories:Array<String> = [null];
@@ -142,10 +139,6 @@ class MasterEditorMenu extends MusicBeatState
 					FlxG.switchState(() -> new MenuCharacterEditorState());
 				case "New Chart Editor (Unfinished)":
 					FlxG.switchState(ChartEditorState.new);
-				#if FOXLITE_ALLOWED
-				case "Visit Maxwell":
-					FlxG.switchState(MaxwellState.new);
-				#end
 			}
 			if (muteMusic)
 			{

@@ -6,11 +6,6 @@ import flixel.FlxState;
 import flixel.FlxG;
 import flixel.input.keyboard.FlxKey;
 
-#if FOXLITE_ALLOWED
-import foxlite.renderer.FoxRenderer;
-import foxlite.loaders.FoxLoaderUtil;
-#end
-
 import funkin.backend.math.Vector3;
 import funkin.backend.Logger;
 
@@ -84,11 +79,6 @@ class Init extends FlxState
 		funkin.utils.WindowUtil.initTracy();
 		#end
 
-		#if FOXLITE_ALLOWED
-        FoxRenderer.initLibs();
-        FoxLoaderUtil.initPathClass(Paths);
-		#end
-		
 		funkin.backend.plugins.ModPlugin.instance.populate();
 		
 		FunkinAssets.cache.currentTrackedSounds.addPermanentKey('assets/music/freakyMenu.ogg');
