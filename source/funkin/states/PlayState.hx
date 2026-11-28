@@ -1815,6 +1815,12 @@ class PlayState extends MusicBeatState
 			}
 		}
 		
+		if (Conductor.songPosition > audio.inst.length)
+		{
+			KillNotes();
+			audio.onComplete.dispatch();
+		}
+		
 		currentSV = getSV(Conductor.songPosition);
 		Conductor.visualPosition = getVisualPosition();
 		
