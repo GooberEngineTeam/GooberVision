@@ -24,7 +24,6 @@ import funkin.backend.Difficulty;
 import funkin.game.RatingInfo;
 import funkin.objects.note.*;
 import funkin.objects.note.Note;
-import funkin.objects.note.Note;
 import funkin.game.huds.BaseHUD;
 import funkin.scripts.*;
 import funkin.data.Song;
@@ -1732,7 +1731,7 @@ class PlayState extends MusicBeatState
 	
 	public function resyncVocals():Void
 	{
-		if (finishTimer != null || !updateTime) return;
+		if (finishTimer != null) return;
 		
 		Logger.log('resyncing at ${Conductor.songPosition}');
 		
@@ -1825,7 +1824,7 @@ class PlayState extends MusicBeatState
 		Conductor.visualPosition = getVisualPosition();
 		
 		checkEventNote();
-
+		
 		if (camZooming)
 		{
 			defaultCamZoomBop = MathUtil.decayLerp(defaultCamZoomBop, 0, 6.25 * camZoomingDecay, elapsed);

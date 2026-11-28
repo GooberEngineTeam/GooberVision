@@ -2523,7 +2523,7 @@ class OLDChartEditorState extends MusicBeatState
 					char.sing(note.noteData % 4);
 					
 					if (!playedSound[note.lane] && ((playSoundBf.checked && note.mustPress) || (playSoundDad.checked && !note.mustPress)))
-					{						
+					{
 						FlxG.sound.play(Paths.sound('hitsound-${ClientPrefs.hitsoundType}')).pan = (note.noteData < (_song.keys * .5) ? -0.3 : 0.3); // would be coolio
 						playedSound[note.lane] = true;
 					}
@@ -3523,6 +3523,7 @@ class OLDChartEditorState extends MusicBeatState
 		if (isPrevSection) num = -1;
 		var beats:Float = getSectionBeats(curSec + num);
 		note.y = getYfromStrumNotes(daStrumTime - sectionStartTime(), beats);
+		// trace
 		// if(note.y < -150) note.y = -150;
 		return note;
 	}
@@ -3671,7 +3672,7 @@ class OLDChartEditorState extends MusicBeatState
 		
 		changeEventSelected();
 		
-		//  Logger.log('Note Data: $noteData, Note Strum: $noteStrum, Current Section: $curSec');
+		// Logger.log('Note Data: $noteData, Note Strum: $noteStrum, Current Section: $curSec');
 		if (curSelectedNotes.length == 1) strumTimeInputText.text = '' + newNote[0];
 		
 		updateGrid();

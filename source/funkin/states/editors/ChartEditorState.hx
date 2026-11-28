@@ -2190,6 +2190,7 @@ class ChartEditorState extends haxe.ui.backend.flixel.UIState
 		if (isPrevSection) num = -1;
 		var beats:Float = getSectionBeats(curSec + num);
 		note.y = getYfromStrumNotes(daStrumTime - sectionStartTime(), beats);
+		// trace
 		// if(note.y < -150) note.y = -150;
 		return note;
 	}
